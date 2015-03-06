@@ -3,7 +3,7 @@
 function parse(){
 
 	// 1: create instance of object
-	request = new XMLHttpRequeset();
+	request = new XMLHttpRequest();
 
 	// 3: set up way to managa response --to a function
 	request.onreadystatechange = parseData;
