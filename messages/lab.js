@@ -9,7 +9,7 @@ function parse(){
 	request.onreadystatechange = parseData;
 
 	// 2: create/open HTTP request
-	request.open("GET", "data.json", true);
+	request.open("GET", "http://messagehub.herokuapp.com/", true);
 
 	// 4: execute request
 	request.send();
@@ -22,7 +22,7 @@ function parse(){
 function parseData() {
 	if (request.readyState ==4) {
 		messagesDiv = document.getElementById("messages");
-		converted = JSON.parse(requestresponseText);
+		converted = JSON.parse(request.responseText);
 		for (i = 0; i < converted.length; i++) {
 			messagesDiv.innerHTML += "<p>" + converted [1]['content'] + "</p>";
 		}
