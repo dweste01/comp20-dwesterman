@@ -44,7 +44,7 @@ function getMyLocation() {
 			my_lat = position.coords.latitute;
 			my_lon = position.coords.longitude;
 			myOptions = {
-				zoom 13,
+				zoom: 13,
 				center: me,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
