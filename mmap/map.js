@@ -41,25 +41,13 @@ function getMyLocation() {
 	console.log("In getMyLocation()");
 	if (navigator.geolocation) { // if it's supported
 		navigator.geolocation.getCurrentPosition(function(position) {
-			my_lat = position.coords.latitute;
+			my_lat = position.coords.latitude;
 			my_lon = position.coords.longitude;
 			myOptions = {
 				zoom: 13,
 				center: me,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			// elem = document.getElementById("info");
-			// elem.innerHTML = "<h1>You are in " + my_lat + ", "
-			// + my_lon + "</h1>";
-
-			// myLocation = new google.maps.LatLng(my_lat, my_lon);
-			// // center map on my location
-			// map.panTo(myLocation);
-			// me = new google.map.Marker({
-			// 	position : myLocation,
-			// 	map : map,
-			// 	title : "MatthewMcAda"
-			// })
 			renderMap();
 		});
 	} else {
@@ -98,11 +86,8 @@ function renderMap() {
 	// idk what this is doing
 	// fix this
 	var request = {
-		location: me,
+		location: me
 	};
-
-	service = new google.maps.places.PlacesService(map);
-	service.search(request, callback);
 	console.log("done with renderMap()");
 
 }
