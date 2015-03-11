@@ -12,10 +12,11 @@
 var my_lat = 0;
 var my_lon = 0;
 var request = new XMLHttpRequest();
+var me_test = new google.maps.LatLng(my_lat, my_lon);
 var me = new google.maps.LatLng(my_lat, my_lon);
 var myOptions = {
 	zoom: 13,
-	center: me,
+	center: me_test,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 };
 var map;
@@ -42,8 +43,14 @@ function getMyLocation() {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			my_lat = position.coords.latitute;
 			my_lon = position.coords.longitude;
+			myOptions = {
+				zoom 13,
+				center: me,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
 			// elem = document.getElementById("info");
-			// elem.innerHTML = "<h1>You are in " + my_lat + ", " + my_lon + "</h1>";
+			// elem.innerHTML = "<h1>You are in " + my_lat + ", "
+			// + my_lon + "</h1>";
 
 			// myLocation = new google.maps.LatLng(my_lat, my_lon);
 			// // center map on my location
@@ -61,15 +68,14 @@ function getMyLocation() {
 	console.log("Leaving getMyLocation()");
 }
 
-function renderMap(){
+function renderMap() {
 	console.log("in renderMap()");
 	me = new google.maps.LatLng(my_lat, my_lon);
 
 	console.log ("before panto me");
-
 	map.panTo(me);
-
 	console.log("after panto me");
+
 	// create marker
 	marker = new google.maps.Marker({
 		position: me,
@@ -88,10 +94,9 @@ function renderMap(){
 
 	// call google places API
 	// idk what this is doing
+	// fix this
 	var request = {
 		location: me,
-		radius: '500',
-		types: ['food']
 	};
 
 	service = new google.maps.places.PlacesService(map);
