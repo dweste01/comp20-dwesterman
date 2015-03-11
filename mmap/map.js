@@ -5,12 +5,9 @@
 // 	^^ with double quotes
 // 	^^ used as parameter to send info via xhr.send()
 
-
 // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 // 	^^ add this parameter to the HTTP request header when exeucting
 // 	HTTP POST using XMLHttpRequest
-
-
 
 var my_lat = 0;
 var my_lon = 0;
