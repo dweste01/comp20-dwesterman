@@ -71,6 +71,8 @@ function getMyLocation() {
 function renderMap() {
 	console.log("in renderMap()");
 	me = new google.maps.LatLng(my_lat, my_lon);
+	console.log(my_lat);
+	console.log(my_lon);
 
 	console.log ("before panto me");
 	map.panTo(me);
