@@ -23,18 +23,17 @@ var map;
 var marker;
 var infowindow = new google.maps.InfoWindow();
 var places;
+var name = "MatthewMcAda";
 
 
 
 // send location info to https://secret-about-box.herokuapp.com/sendLocation
 // and retrieve everyone else's info there too
 function init() {
-
 	map = new google.maps.Map(document.getElementById('map-canvas'),
             myOptions);
 	getMyLocation();
 	console.log("Call after getMyLocation()");
-
 }
 
 function getMyLocation() {
@@ -67,9 +66,11 @@ function renderMap() {
 	console.log("after panto me");
 
 	// create marker
+    var img = 'liz.jpg';
 	marker = new google.maps.Marker({
 		position: me,
-		title: "Here I am! MatthewMcAda"
+		title: "MatthewMcAda",
+        icon: img
 	});
 
 	console.log("created marker");
@@ -82,42 +83,62 @@ function renderMap() {
 		infowindow.open(map, marker);
 	});
 
-	// call google places API
-	// idk what this is doing
-	// fix this
-	var request = {
-		location: me
-	};
 	console.log("done with renderMap()");
 
+    // send location info to datastore API
+    request.onreadystatechange = function(){
+        if (request.readyState == 4 && request.status == 200) {
+            alert("Got places back!");
+            data = JSON.parse(request.responseText);
+            console.log(data);
+            for (i = 0; i < data.lenght; i++) {
+                createMarker(results[i]);
+            }
+
+        }
+    };
+    request.open("POST", "https://secret-about-box.herokuapp.com/sendLocation", true);
+    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    request.send("login=" + name + "&lat=" + my_lat + "&lng=" + my_lon);
+
 }
 
 
-function callback(results, status)
-{
-	if (status == google.maps.places.PlacesServiceStatus.OK) {
-		alert("Got places back!");
-		places = results;
-		for (var i = 0; i < results.length; i++) {
-			createMarker(results[i]);
-		}
-	}
-}
 
 function createMarker(place) {
-	var placeLoc = place.geometry.location;
-	var marker = new google.maps.Marker({
-		map: map,
-		position: place.geometry.location
-	});
-	
-	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.close();
-		infowindow.setContent(place.name);
-		infowindow.open(map, this);
-	});
+
+ var placeLoc = place.geometry.location;
+ var marker = new google.maps.Marker({
+     map: map,
+     position: place.geometry.location
+ });
+    
+ google.maps.event.addListener(marker, 'click', function() {
+     infowindow.close();
+     infowindow.setContent(place.name);
+     infowindow.open(map, this);
+ });
 
 }
+
+
+// function callback()
+// {
+// 	// if (status == google.maps.places.PlacesServiceStatus.OK) {
+// 		alert("Got places back!");
+// 		places = results;
+//         console.log(status);
+//         console.log(results);
+
+// 		for (var i = 0; i < results.length; i++) {
+// 			createMarker(results[i]);
+// 		}
+// 	// }
+// }
+
+
+
+
 
 
 
