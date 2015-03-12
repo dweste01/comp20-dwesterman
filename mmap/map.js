@@ -66,11 +66,11 @@ function renderMap() {
 	console.log("after panto me");
 
 	// create marker
-    var img = 'liz.jpg';
+    	var img = 'liz.jpg';
 	marker = new google.maps.Marker({
 		position: me,
 		title: "MatthewMcAda",
-        icon: img
+        	icon: img
 	});
 
 	console.log("created marker");
@@ -90,9 +90,9 @@ function renderMap() {
         if (request.readyState == 4 && request.status == 200) {
             alert("Got places back!");
             data = JSON.parse(request.responseText);
-            console.log(data);
-            for (i = 0; i < data.lenght; i++) {
-                createMarker(results[i]);
+
+            for (i = 0; i < data.length; i++) {
+                createOtherMarkers(data[i]);
             }
 
         }
@@ -105,36 +105,38 @@ function renderMap() {
 
 
 
-function createMarker(place) {
+function createOtherMarkers(place) {
 
- var placeLoc = place.geometry.location;
- var marker = new google.maps.Marker({
-     map: map,
-     position: place.geometry.location
- });
+	console.log(place.login);
+	// console.log(place.lat);
+	// console.log(place.lng);
+	newloc = new google.maps.LatLng(place.lat, place.lng);
+	newmarker = new google.maps.Marker({
+		position: newloc,
+		title: place.login
+	});
+
+	newmarker.setMap(map);
+
+	google.maps.event.addListener(newmarker, 'click', function() {
+		infowindow.setContent(newmarker.title);
+		infowindow.open(map, newmarker);
+	});
+
+
+ // var placeLoc = place.geometry.location;
+ // var marker = new google.maps.Marker({
+ //     map: map,
+ //     position: place.geometry.location
+ // });
     
- google.maps.event.addListener(marker, 'click', function() {
-     infowindow.close();
-     infowindow.setContent(place.name);
-     infowindow.open(map, this);
- });
+ // google.maps.event.addListener(marker, 'click', function() {
+ //     infowindow.close();
+ //     infowindow.setContent(place.name);
+ //     infowindow.open(map, this);
+ // });
 
 }
-
-
-// function callback()
-// {
-// 	// if (status == google.maps.places.PlacesServiceStatus.OK) {
-// 		alert("Got places back!");
-// 		places = results;
-//         console.log(status);
-//         console.log(results);
-
-// 		for (var i = 0; i < results.length; i++) {
-// 			createMarker(results[i]);
-// 		}
-// 	// }
-// }
 
 
 
