@@ -127,7 +127,7 @@ function createOtherMarkers(place) {
 		title: place.login
 	});
 
-	content = '<div> <p>' + place.login + " is " + dis + " miles away </p> </div>" 
+	content = '<div> <p>' + place.login + " is " + Math.round(dis*100)/100 + " miles away </p> </div>" 
 	newmarker.content = content;
 	new_iw = new google.maps.InfoWindow();
 	google.maps.event.addListener(newmarker, 'click', function() {
