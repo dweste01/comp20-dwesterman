@@ -1,22 +1,14 @@
-// send location info to https://secret-about-box.herokuapp.com/sendLocation
-// and retrieve everyone else's info there too 
-// takes in three parameters: login (MatthewMcAda), lat, and long
-// "login=YOURLOGIN&lat=YOUR_LATITUDE&lng=YOUR_LONGITUDE"
-// 	^^ with double quotes
-// 	^^ used as parameter to send info via xhr.send()
-
-// xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-// 	^^ add this parameter to the HTTP request header when exeucting
-// 	HTTP POST using XMLHttpRequest
-
+// Danielle Westerman
+// Marauder's Map
+// COMP20 Assignment 2
+// 3/12/15
 var my_lat = 0;
 var my_lon = 0;
 var request = new XMLHttpRequest();
-var me_test = new google.maps.LatLng(my_lat, my_lon);
 var me = new google.maps.LatLng(my_lat, my_lon);
 var myOptions = {
 	zoom: 15,
-	center: me_test,
+	center: me,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 };
 var map;
@@ -77,7 +69,6 @@ function renderMap() {
     	// send location info to datastore API
     	request.onreadystatechange = function(){
         if (request.readyState == 4 && request.status == 200) {
-            alert("Got places back!");
             data = JSON.parse(request.responseText);
 
             for (i = 0; i < data.length; i++) {
@@ -98,8 +89,7 @@ function haversine(lat, lng){
 	Number.prototype.toRad = function() {
 		return this * Math.PI / 180;
 	}
-// lat = lat1
-// my_lat = lat2
+
 	var R = 6371;
 	var x1 = my_lat - lat;
 	var dLat = x1.toRad();
@@ -127,7 +117,8 @@ function createOtherMarkers(place) {
 		title: place.login
 	});
 
-	content = '<div> <p>' + place.login + " is " + Math.round(dis*100)/100 + " miles away </p> </div>" 
+	content = '<div> <p>' + place.login + " is "
+			+ Math.round(dis*100)/100 + " miles away </p> </div>" 
 	newmarker.content = content;
 	new_iw = new google.maps.InfoWindow();
 	google.maps.event.addListener(newmarker, 'click', function() {
