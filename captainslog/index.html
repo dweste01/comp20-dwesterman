@@ -7,6 +7,31 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script>
 	  // Most of your work will be done here...
+	  // alert(localStorage.length);
+	  function get_old_posts() {
+		  for (var j = 0; j <= localStorage.length; j++) {
+		  	m = localStorage.getItem(j);
+		  	// alert(m);
+		  	$('div#log').prepend(m);
+		  }
+		  return localStorage.length
+		}
+
+	  $(document).ready(function() {
+	  	// localStorage.clear();
+	  var i = get_old_posts();
+	  $('input#msg').keypress(function (e) {
+	  	if (e.which == 13) {
+	  		msg = $('input#msg').val();
+	  		d = new Date;
+	  		full_msg = "<p>" + d + " - " + msg + "</p>";
+	  		$('div#log').prepend(full_msg);
+	  		$('input#msg').val('');
+	  		localStorage.setItem(i, full_msg);
+	  		i++;
+	  	}
+	  })
+	});
 	</script>
 </head>
 
