@@ -1,2 +1,11 @@
 README
 Danielle Westerman
+
+1. I believe I have correctly implemented everything, including displaying
+each message entered in the input box (most recent message first) and keeping
+the messages in local storage so that they re-appear when the page is
+re-loaded.
+
+2. I discussed this assignment with Eric Peterson
+
+3. Time: ~2 hours
