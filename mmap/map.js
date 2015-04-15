@@ -15,7 +15,7 @@ var map;
 var marker;
 var infowindow = new google.maps.InfoWindow();
 var places;
-var name = "MatthewMcAda";
+var name = "hellloooo";
 
 
 
