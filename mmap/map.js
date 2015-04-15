@@ -77,7 +77,7 @@ function renderMap() {
 
         }
     };
-    request.open("POST", "https://secret-about-box.herokuapp.com/sendLocation", true);
+    request.open("POST", "https://floating-shore-8321.herokuapp.com/sendLocation", true);
     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     request.send("login=" + name + "&lat=" + my_lat + "&lng=" + my_lon);
 
