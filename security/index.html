@@ -20,19 +20,24 @@
 	   and the server-side (assignment 3) show severe security
 	   vulnerabilities, which allow malicious hackers to interfere with
 	   the functionality and potentially launch attacks on users of the
-	   application.<p>
+	   application.</p>
 	</div>
 
 
 	<h4>Methodology</h4>
 	<div id="bodies">
-
+	<p>In finding security flaws in the Marauder’s map, I primarily used curl
+		in the terminal to manipulate posting data to the server.</p>
 	</div>
-
 
 	<h4>Abstract of Findings</h4>
 	<div id="bodies">
-
+	<p>	The security and privacy issues are due to the fact that, contrary to
+		Ming’s advice, the server trusted the user to input ‘legal’ data.
+		Hackers and malicious users can easily violate this trust and enter
+		harmful input that can change the functionality of the website,
+		manipulate the data stored in the website, and show important
+		information to others who should not have access to it. </p>
 	</div>
 
 		<h4>Issues Found</h4>
@@ -40,13 +45,54 @@
 	<ol>
 		<li> Cross-Site Scripting (XSS) </li>
 		<ul>
-			<li>Location: </li>
-			<li>Severity: </li>
-			<li>Description: </li>
-			<li>Proof of Vulnerability: </li>
-			<li>Resolution: </li>
+			<li><b>Location:</b> This attack is launched when a user inputs
+				information through the HTTP POST API. However, the result of 
+				this attack is not seen until an HTTP GET request is executed.</li>
+			<li><b>Severity: </b>High- this type of vulnerability allows
+				hackers to inject any type of code, changing
+				the behavior of the website and even leaving
+				users vulnerable to dangerous attacks</li>
+			<li><b>Description: </b>When data is submitted through the 
+				post API, it is received as a string of text, and the contents
+				of the input are later displayed on the webpage. However, if
+				this text contains code (such as &lt;script&gt;alert(‘hello’)
+				&lt;/script&gt; as below), this code will be executed and thus
+				the site’s functionality can be completely changed or destroyed
+				if that is the hacker’s intent. This vulnerability was found
+				using curl to send data to the post API (/sendLocation), where
+				the ‘login’ field was filled with JavaScript code.</li>
+			<li><b>Proof of Vulnerability: </b>
+				<br> Curl-ing "&lt;script&gt;alert(‘hello’)&lt;/script&gt;" as
+				the login name to the send API: <br>
+				<img src="xss_terminal.jpg">
+				 <br> Result:<br>
+				<img src="xss_alert.jpg"></li>
+			<li><b>Resolution: </b> Since a server cannot do anything to
+				control what its users submit, it must check the data for
+				potential XSS attacks. By 'sanitizing' the input, the server
+				can protect itself from code injections by changing key
+				characters (such as &lt; and &gt;) to &amp;lt; and &amp;gt; so
+				the input will not be recognized as executable code. This can
+				be performed as soon as the server receives the data, before it
+				is stored, so as to avoid any complications that may arise from
+				storing malicious code and escaping it only just before it is
+				sent back out. </li> 
 
 		</ul>
+		<li>Extra JSON fields</li>
+			<ul>
+			<li><b>Location:</b> This attack is launched through the HTTP POST
+				API.</li>
+			<li><b>Severity: </b> Low- since the GET API only deals with 'login,'
+				'lat,' and 'lng' fields from the input, any information entered
+				in extraneous fields will not be executed. However, when taken
+				to extreme lengths, this kind of attack can fill up the database,
+				severely slowing down performance and possibly costing the server
+				extra money. </li>
+			<li><b>Description:</b></li>
+			<li><b>Proof of Vulnerability: </b></li>
+			<li><b>Resolution: </b></li> 
+			</ul>
 	</ol>
 	</div>
 
@@ -59,3 +105,6 @@
 
 
 </html>
+
+
+
