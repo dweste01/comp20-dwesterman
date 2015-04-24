@@ -82,34 +82,37 @@
 			<ul>
 			<li><b>Location:</b> This attack is launched through the HTTP POST
 				API.</li>
-			<li><b>Severity: </b> Low- since the GET API only deals with 'login,'
+			<li><b>Severity:</b> Low- since the GET API only deals with 'login,'
 				'lat,' and 'lng' fields from the input, any information entered
 				in extraneous fields will not be executed. However, when taken
-				to extreme lengths, this kind of attack can fill up the database,
-				severely slowing down performance and possibly costing the server
-				extra money. </li>
+				to extreme lengths, a hacker can enter infinite fields and
+				eventually overwhelm and crash the server. </li>
 			<li><b>Description:</b>When submitting data via the POST API,
 				different fields are entered using the format "key=value" and
 				separated by a &amp;. A hacker can enter any data fields he or
 				she wants to, other than the login, lat, and lng expected by
-				the server. The server will only use those three inputs,
-				although it reads in anything and everything that a user
-				enters. </li>
-			<li><b>Proof of Vulnerability: </b></li>
+				the server. Even though only those three fields will be
+				inserted into the database, if a hacker posts unlimited fields,
+				the server will not be able to handle it.</li>
+			<li><b>Proof of Vulnerability:</b></li>
 			<li><b>Resolution: </b></li> 
 			</ul>
 		<li> No user authentication</li>
 			<ul>
 			<li><b>Location:</b> This attack </li>
-			<li><b>Severity: </b> Medium- Anyone with internet access can
+			<li><b>Severity:</b> Medium- Anyone with internet access can
 				access the map with whatever name and coordinates they choose.
 			</li>
 			<li><b>Description:</b>Because users are not required to
 				authenticate their identity, any internet user in any location
 				can access the information in the database. This is a huge
-				breach of privacy, although this particular privacy flaw does
-				not allow hackers to harm the server. </li>
-			<li><b>Proof of Vulnerability: </b></li>
+				breach of privacy, rather than an actual threat to the
+				performance of the server. Although unauthorized users may be
+				able to see user's information, this access in itself is not a
+				threat to the server's security. </li>
+			<li><b>Proof of Vulnerability:</b>
+				Anyone in possession of the URL can access all check-in data without divulging their own location:
+				<img src="no_authentication.jpg"></li>
 			<li><b>Resolution: </b></li> 
 			</ul>
 
