@@ -6,12 +6,10 @@
 </head>
 <body>
 	<h2>Comp20 Assignment 4 </h2>
-	<h3>Danielle Westerman</h3>
-	<h4>Assessing Gabriel Terrel's Marauder's Map</h4>
+	<h4>Danielle Westerman
+		<br>Assessing Gabriel Terrel's Marauder's Map</h4>
 
-
-	<h4>Introduction</h4>
-
+	<h3>Introduction</h3>
 	<div id="bodies">
 	<p>My goal is to assess the security and privacy of Gabriel Terrell’s
 	   Marauder’s Map assignment. The Marauder’s Map takes in location data
@@ -24,30 +22,31 @@
 	</div>
 
 
-	<h4>Methodology</h4>
+	<h3>Methodology</h3>
 	<div id="bodies">
 	<p>In finding security flaws in the Marauder’s map, I primarily used curl
 		in the terminal to manipulate posting data to the server.</p>
 	</div>
 
-	<h4>Abstract of Findings</h4>
+	<h3>Abstract of Findings</h3>
 	<div id="bodies">
 	<p>	The security and privacy issues are due to the fact that, contrary to
-		Ming’s advice, the server trusted the user to input ‘legal’ data.
+		Ming’s advice, the server trusted the user to input legal data.
 		Hackers and malicious users can easily violate this trust and enter
 		harmful input that can change the functionality of the website,
 		manipulate the data stored in the website, and show important
 		information to others who should not have access to it. </p>
 	</div>
 
-		<h4>Issues Found</h4>
+	<h3>Issues Found</h3>
 	<div id="bodies">
 	<ol>
 		<li> Cross-Site Scripting (XSS) </li>
 		<ul>
 			<li><b>Location:</b> This attack is launched when a user inputs
-				information through the HTTP POST API. However, the result of 
-				this attack is not seen until an HTTP GET request is executed.</li>
+				information through the HTTP POST API. However, the result of
+				this attack is not seen until an HTTP GET request is executed
+			</li>
 			<li><b>Severity: </b>High- this type of vulnerability allows
 				hackers to inject any type of code, changing
 				the behavior of the website and even leaving
@@ -89,15 +88,46 @@
 				to extreme lengths, this kind of attack can fill up the database,
 				severely slowing down performance and possibly costing the server
 				extra money. </li>
-			<li><b>Description:</b></li>
+			<li><b>Description:</b>When submitting data via the POST API,
+				different fields are entered using the format "key=value" and
+				separated by a &amp;. A hacker can enter any data fields he or
+				she wants to, other than the login, lat, and lng expected by
+				the server. The server will only use those three inputs,
+				although it reads in anything and everything that a user
+				enters. </li>
 			<li><b>Proof of Vulnerability: </b></li>
 			<li><b>Resolution: </b></li> 
 			</ul>
+		<li> No user authentication</li>
+			<ul>
+			<li><b>Location:</b> This attack </li>
+			<li><b>Severity: </b> Medium- Anyone with internet access can
+				access the map with whatever name and coordinates they choose.
+			</li>
+			<li><b>Description:</b>Because users are not required to
+				authenticate their identity, any internet user in any location
+				can access the information in the database. This is a huge
+				breach of privacy, although this particular privacy flaw does
+				not allow hackers to harm the server. </li>
+			<li><b>Proof of Vulnerability: </b></li>
+			<li><b>Resolution: </b></li> 
+			</ul>
+
 	</ol>
 	</div>
 
-	<h4>Conclusion</h4>
+	<h3>Conclusion</h3>
 	<div id="bodies">
+		<p> Overall, this web application is generally not very secure at all.
+			Because sensitive information (like a user's location) is available
+			to anyone who accesses the URL, all users' privacy is at risk.
+			Because the server does not escape users' input before it is added
+			to the database, a malicious hacker can easily hijack the
+			application via cross-site scripting. Many of this application's
+			security problems can easily be fixed by cleaning user's input,
+			adding extra precautions to verify a user's identity and only allow
+			database information to be viewed by those it is intended for. 
+		</p>
 
 	</div>
 </body>
