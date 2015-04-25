@@ -6,26 +6,26 @@
 </head>
 <body>
 	<h2>Comp20 Assignment 4 </h2>
-	<h4>Danielle Westerman
-		<br>Assessing Gabriel Terrel's Marauder's Map</h4>
+	<h4>Danielle Westerman<br>Assessing Gabriel Terrel's Marauder's Map</h4>
 
 	<h3>Introduction</h3>
 	<div id="bodies">
 	<p>My goal is to assess the security and privacy of Gabriel Terrell’s
 	   Marauder’s Map assignment. The Marauder’s Map takes in location data
 	   for all of its users, storing all of their positions in a database
-	   and displaying them on a map. Both the client-side (assignment 2)
-	   and the server-side (assignment 3) show severe security
-	   vulnerabilities, which allow malicious hackers to interfere with
-	   the functionality and potentially launch attacks on users of the
-	   application.</p>
+	   and displaying them on a map. This web app has severe security
+	   vulnerabilities in various locations, which allow malicious hackers
+	   to interfere with the functionality and potentially launch attacks
+	   on users of the application.</p>
 	</div>
 
 
 	<h3>Methodology</h3>
 	<div id="bodies">
 	<p>In finding security flaws in the Marauder’s map, I primarily used curl
-		in the terminal to manipulate posting data to the server.</p>
+		in the terminal to manipulate posting data to the server. I also
+		entered queries directly in the address bar of my browser, and was
+		able to look through the source code for potential vulnerabilities.</p>
 	</div>
 
 	<h3>Abstract of Findings</h3>
@@ -41,7 +41,7 @@
 	<h3>Issues Found</h3>
 	<div id="bodies">
 	<ol>
-		<li> Cross-Site Scripting (XSS) </li>
+		<li><h4>Cross-Site Scripting (XSS) </h4></li>
 		<ul>
 			<li><b>Location:</b> This attack is launched when a user inputs
 				information through the HTTP POST API. However, the result of
@@ -76,32 +76,56 @@
 				is stored, so as to avoid any complications that may arise from
 				storing malicious code and escaping it only just before it is
 				sent back out. </li> 
-
 		</ul>
-		<li>Extra JSON fields</li>
+		<li><h4>Issue with queries</h4></li>
 			<ul>
-			<li><b>Location:</b> This attack is launched through the HTTP POST
-				API.</li>
-			<li><b>Severity:</b> Low- since the GET API only deals with 'login,'
-				'lat,' and 'lng' fields from the input, any information entered
-				in extraneous fields will not be executed. However, when taken
-				to extreme lengths, a hacker can enter infinite fields and
-				eventually overwhelm and crash the server. </li>
-			<li><b>Description:</b>When submitting data via the POST API,
-				different fields are entered using the format "key=value" and
-				separated by a &amp;. A hacker can enter any data fields he or
-				she wants to, other than the login, lat, and lng expected by
-				the server. Even though only those three fields will be
-				inserted into the database, if a hacker posts unlimited fields,
-				the server will not be able to handle it.</li>
+			<li><b>Location:</b> This vulnerability is in the HTTP GET
+				'/location.json' API.</li>
+			<li><b>Severity:</b> Medium- this issue causes the app to crash
+				whenever a user makes a query to find a user that is already in
+				the database- which can occur very often, and cause a huge
+				disruption.</li>
+			<li><b>Description:</b>When a query is made, the /location.json API
+				looks into the database to see if the target entry is already
+				in the database. This API conducts a 'db.collection.find()', 
+				and if that comes back with at least one result, it returns
+				that entry as the response to the query. If there are no
+				records matching the query, it simply returns an empty JSON.
+				The issue arises, though, because the code does not use an
+				'else' statement: <br><br>
+				<code>
+					// See if login information exists, and if so, send it <br>
+					if (cursor.length > 0) { <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;response.send(JSON.stringify(cursor)); <br>
+					} <br>
+					// Else, send empty JSON <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;response.send('{}'); <br>
+				</code>
+				<br><br> Because there is no 'else' statement, the sending of
+				the empty JSON is ALWAYS attempted (even if the response has
+				already been sent within the if statement). Therefore, a query
+				of an entry that is already present in the database causes the
+				<code> "Error: Can't set headers after they are sent." </code>
+				error and the server crashes. </li>
 			<li><b>Proof of Vulnerability:</b></li>
-			<li><b>Resolution: </b></li> 
+			<p> After having previously checked-in a user under the name
+				'yourmom', performing a query causes the server to crash: <br>
+				<img src="bug.jpg"> <br> Looking at the terminal in which node.js was running, you can see that it stops running. <br>
+				<img src="bug_terminal.jpg"><br> 
+			<li><b>Resolution:</b>This issue can be fixed by simply wrapping the
+				secondary response.send in an 'else' statement, so it will not be
+				reached if the response has already been sent from the line above
+				it, thus avoiding a crash.</li> 
 			</ul>
-		<li> No user authentication</li>
+		<li><h4>No user authentication</h4></li>
 			<ul>
-			<li><b>Location:</b> This attack </li>
+			<li><b>Location:</b> This vulnerability is apparent at the home
+				root</li>
 			<li><b>Severity:</b> Medium- Anyone with internet access can
-				access the map with whatever name and coordinates they choose.
+				access the map with whatever name and coordinates they choose,
+				and view any other user's check-in information. Thankfully, this
+				database doesn't hold more sensitive information (SSNs, bank
+				information, etc.) so it is not a high-severity issue. 
 			</li>
 			<li><b>Description:</b>Because users are not required to
 				authenticate their identity, any internet user in any location
@@ -111,9 +135,12 @@
 				able to see user's information, this access in itself is not a
 				threat to the server's security. </li>
 			<li><b>Proof of Vulnerability:</b>
-				Anyone in possession of the URL can access all check-in data without divulging their own location:
+				Anyone in possession of the URL can access all check-in data
+				without divulging their own location:
 				<img src="no_authentication.jpg"></li>
-			<li><b>Resolution: </b></li> 
+			<li><b>Resolution:</b> This web app could be made much more private
+				by forcing users to verify their identity, so that sensitive
+				information is only available to the proper people. </li> 
 			</ul>
 
 	</ol>
@@ -128,8 +155,8 @@
 			to the database, a malicious hacker can easily hijack the
 			application via cross-site scripting. Many of this application's
 			security problems can easily be fixed by cleaning user's input,
-			adding extra precautions to verify a user's identity and only allow
-			database information to be viewed by those it is intended for. 
+			adding extra precautions to verify a user's identity and making sure
+			to only send responses when necessary to avoid server crashes. 
 		</p>
 
 	</div>
